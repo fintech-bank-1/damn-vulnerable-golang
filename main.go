@@ -8,6 +8,7 @@ import (
 	"crypto/tls"
 	"database/sql"
 	"fmt"
+	"html/template"
 	"io"
 	"log"
 	"math/rand"
@@ -147,6 +148,19 @@ func main() {
 		r.Body = http.MaxBytesReader(w, r.Body, 1<<30) // 1GB
 		gzr, _ := gzip.NewReader(r.Body)
 		_, _ = io.Copy(os.Stdout, gzr)
+	})
+
+	// Gosec G203: Use of unescaped data in HTML templates
+	// CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+	// Vulnerability: Injecting user-supplied input into an HTML template without escaping allows cross-site scripting (XSS).
+	// An attacker can inject malicious JavaScript that executes in other users' browsers, stealing sessions or credentials.
+	// Best practice is to use the default auto-escaping in html/template and never bypass it with template.HTML().
+	http.HandleFunc("/greeting", func(w http.ResponseWriter, r *http.Request) {
+		name := r.URL.Query().Get("name")
+		tmpl := template.Must(template.New("greeting").Parse("<h1>Hello, {{.Name}}!</h1>"))
+		tmpl.Execute(w, map[string]interface{}{
+			"Name": template.HTML(name),
+		})
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

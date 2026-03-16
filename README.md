@@ -20,13 +20,20 @@ The main objectives of this repository are:
 
 The code in this repository contains various intentional vulnerabilities, including but not limited to:
 
-- SQL Injection
-- Command Injection
-- Path Traversal
-- Weak Cryptography
-- Hardcoded Credentials
-- Integer Overflow
-- Denial-of-Service (DoS)
+| Vulnerability | Gosec Rule | Severity |
+|---|---|---|
+| SQL Injection | G201 | HIGH |
+| Command Injection | G204 | HIGH |
+| Path Traversal | G304 | HIGH |
+| Weak Cryptography (MD5, DES, RC4) | G401, G501 | MEDIUM |
+| Hardcoded Credentials | G101 | HIGH |
+| Integer Overflow | G109 | HIGH |
+| Cross-site Scripting (XSS) | G203 | MEDIUM |
+| Denial-of-Service (DoS) | G110 | MEDIUM |
+| Weak PRNG | G404 | HIGH |
+| Insecure TLS | G402 | HIGH |
+| SSRF | G107 | MEDIUM |
+| Unhandled Errors | G104 | LOW |
 
 Each vulnerability is accompanied by comments explaining the issue, the associated [Common Weakness Enumeration (CWE)](https://cwe.mitre.org/), and best practices to mitigate the vulnerability.
 
