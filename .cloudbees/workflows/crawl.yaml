@@ -17,7 +17,7 @@ jobs:
 
       - name: Run Gosec Scan
         id: gosec-step
-        uses: cloudbees-io/gosec-plugin@CBP-35828
+        uses: cloudbees-io/gosec-plugin@CBP-37710
 
       - id: print-gosec-outputs
         name: Print gosec outputs
@@ -29,6 +29,7 @@ jobs:
           echo "High: ${{ steps.gosec-step.outputs.high-count }}"
           echo "Medium: ${{ steps.gosec-step.outputs.medium-count }}"
           echo "Low: ${{ steps.gosec-step.outputs.low-count }}"
+          echo "Policy Subject: ${{ steps.gosec-step.outputs.policy-subject }}"
 
       # Transform gosec output to policy engine JSON
       #   critical-count + very-high-count → CRITICAL
