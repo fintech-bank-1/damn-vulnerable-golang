@@ -17,7 +17,7 @@ jobs:
 
       - name: Run Gosec Scan
         id: gosec-step
-        uses: cloudbees-io/gosec-plugin@CBP-37710
+        uses: cloudbees-io/gosec-plugin@v1
 
       - id: print-gosec-outputs
         name: Print gosec outputs
