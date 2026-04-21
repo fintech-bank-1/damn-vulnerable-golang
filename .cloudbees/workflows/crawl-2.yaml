@@ -55,7 +55,7 @@ jobs:
 
       - id: check-vulnerabilities
         name: Check vulnerabilities
-        uses: calculi-corp/policy-service/actions/check-policy@discover
+        uses: cloudbees-io/policy-check@main
         with:
           policy: de6f9499-7a04-4eba-bfb6-2a4170bc0b19
           input-data: ${{ steps.gosec-step.outputs.policy-subject }}"
