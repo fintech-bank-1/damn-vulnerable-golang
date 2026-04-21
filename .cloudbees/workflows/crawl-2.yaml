@@ -47,11 +47,11 @@ jobs:
       #     {"vulnerabilities":{"counts":{"CRITICAL":${CRITICAL},"HIGH":${HIGH},"MEDIUM":${MEDIUM}}}}
       #     EOF
 
-      - name: Print policy input
-        uses: docker://alpine:latest
-        shell: sh
-        run: |
-          cat /cloudbees/workspace/policy-input.json
+      # - name: Print policy input
+      #   uses: docker://alpine:latest
+      #   shell: sh
+      #   run: |
+      #     cat /cloudbees/workspace/policy-input.json
 
       - id: check-vulnerabilities
         name: Check vulnerabilities
