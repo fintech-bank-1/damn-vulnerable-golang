@@ -30,6 +30,7 @@ jobs:
           echo "Medium: ${{ steps.gosec-step.outputs.medium-count }}"
           echo "Low: ${{ steps.gosec-step.outputs.low-count }}"
           echo "Policy Subject: ${{ steps.gosec-step.outputs.policy-subject }}"
+          append(workflow_subject_data_file, results)
 
       # Transform gosec output to policy engine JSON
       #   critical-count + very-high-count → CRITICAL
@@ -47,11 +48,11 @@ jobs:
       #     {"vulnerabilities":{"counts":{"CRITICAL":${CRITICAL},"HIGH":${HIGH},"MEDIUM":${MEDIUM}}}}
       #     EOF
 
-      # - name: Print policy input
-      #   uses: docker://alpine:latest
-      #   shell: sh
-      #   run: |
-      #     cat /cloudbees/workspace/policy-input.json
+      - name: Print policy input
+        uses: docker://alpine:latest
+        shell: sh
+        run: |
+          cat ${{ steps.gosec-step.outputs.policy-subject }}
 
       - id: check-vulnerabilities
         name: Check vulnerabilities
