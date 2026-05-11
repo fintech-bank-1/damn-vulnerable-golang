@@ -1,0 +1,39 @@
+name: sonarqube-explicit-scanner
+kind: workflow
+apiVersion: automation.cloudbees.io/v1alpha1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  scm-token-own: read
+  scm-token-org: read
+  id-token: write
+
+jobs:
+  sonar-scan:
+    steps:        
+      - name: checkout Source Code
+        uses: cloudbees-io/checkout@v2
+
+      - id: sonar-step
+        name: Setup sonarqube explicit scanner with community edition
+        uses: cloudbees-io/sonarqube-plugin@CBP-41936
+        with:
+          url: 'https://cbsonarqube.saas-preprod.beescloud.com/'
+          username: ${{ secrets.CB_SONARQUBE_USERNAME }}
+          password: ${{ secrets.CB_SONARQUBE_PASSWORD }}
+          ref: main
+      
+      - id: print-sonar-outputs
+        name: Print Sonar outputs
+        uses: docker://alpine:latest
+        run: |
+          echo "sonar outputs:"
+          echo "Critical: ${{ steps.sonar-step.outputs.critical-count }}"
+          echo "Very high: ${{ steps.sonar-step.outputs.very-high-count }}"
+          echo "High: ${{ steps.sonar-step.outputs.high-count }}"
+          echo "Medium: ${{ steps.sonar-step.outputs.medium-count }}"
+          echo "Low: ${{ steps.sonar-step.outputs.low-count }}"
+          echo "Policy Subject: ${{ steps.sonar-step.outputs.policy-subject }}"
+          
